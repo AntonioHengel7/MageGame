@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb70c73fc113b90469bb08fa0b7cff40, type: 3}
+  m_Name: Orc
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDefinition
+  enemyName: Orc
+  maxHealth: 80
+  moveSpeed: 2.2
+  angularSpeed: 360
+  stoppingDistance: 1.25
+  attackKind: 0
+  attackRange: 2.2
+  attackDamage: 18
+  attackCooldown: 1.9
+  attackWindup: 0.2
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 16
+  projectileLifetime: 4
+  ultimateValueOnKill: 9
+  visualPrefab: {fileID: 0}
+  attackSfx: []
+  hurtSfx: []
+  deathSfx: []
