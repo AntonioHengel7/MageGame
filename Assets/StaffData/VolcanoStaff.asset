@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b4dcd6a95d346744a6b4ae214e16eea, type: 3}
+  m_Name: VolcanoStaff
+  m_EditorClassIdentifier: Assembly-CSharp::StaffData
+  viewModelPrefab: {fileID: 1425162898493337783, guid: b2262042bd003fe4796c5ed693d677a9, type: 3}
+  worldPickupPrefab: {fileID: 268120133819130795, guid: 3cbf0d4df4c5a0544a3ba1da3b3a232b, type: 3}
+  localPosition: {x: 0.55, y: -0.69, z: 0.56}
+  localEulerAngles: {x: 35.755, y: 0.049, z: -4.815}
+  displayName: Fire Staff
