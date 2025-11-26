@@ -42,4 +42,11 @@ enemy navigation and stats
 
 additional combat foundations, ult bar and projectiles
 
+==================================================================================================
+
+### Jorge
+
+Created starting area, first level, and first final boss room
+
+added script to change scene
 
