@@ -34,3 +34,12 @@ Added trees, torches, and other miscellaneous additions within level
 
 ==================================================================================================
 
+### Antonio
+
+Created goblin, wizard, and orc untextured prefabs
+
+enemy navigation and stats
+
+additional combat foundations, ult bar and projectiles
+
+
