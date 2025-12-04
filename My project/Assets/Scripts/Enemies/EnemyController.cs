@@ -10,13 +10,13 @@ public class EnemyController : MonoBehaviour
 
     NavMeshAgent agent;
     Transform player;
-    Health health;
+    Health2 health;
     float nextAttackTime;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        health = GetComponent<Health>();
+        health = GetComponent<Health2>();
 
         // Apply stats from definition
         health.Initialize(def.maxHealth);
