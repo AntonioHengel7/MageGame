@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Health : MonoBehaviour, IDamageable
+public class Health2 : MonoBehaviour, IDamageable
 {
     [Min(1)] public float maxHealth = 100f;
     public float Current { get; private set; }
