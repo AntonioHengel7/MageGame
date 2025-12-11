@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 735d405e84f409344aad5f3cf37d9da6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 311643
+  packageName: Goblin LowPoly - Animation
+  packageVersion: 1.0
+  assetPath: Assets/Goblin_Character/Animation/Goblin_Anim/rig_Anim.Attack.01.anim
+  uploadId: 734482
