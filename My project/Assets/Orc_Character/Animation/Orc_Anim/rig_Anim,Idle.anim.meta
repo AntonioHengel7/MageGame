@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 844c0846f764dc64fa0562e91e945049
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 311643
+  packageName: Goblin LowPoly - Animation
+  packageVersion: 1.0
+  assetPath: Assets/Goblin_Character/Animation/Goblin_Anim/rig_Anim,Idle.anim
+  uploadId: 734482
