@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbedExplosive
   damage: 100
-  radius: 9.05
+  radius: 5.17
   fuseSeconds: 1.2
   damageMask:
     serializedVersion: 2

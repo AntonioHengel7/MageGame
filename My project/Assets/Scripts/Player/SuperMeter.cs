@@ -7,7 +7,7 @@ public class SuperMeter : MonoBehaviour
   public float Max => max;
   public float Normalized => Mathf.Approximately(max, 0) ? 0 : Current / max;
 
-  void Awake() { Current = max; } // full for  testing
+  void Awake() { Current = 70; } // full for  testing
 
   public void Add(float amount) { Current = Mathf.Clamp(Current + amount, 0f, max); }
   public bool TrySpend(float amount)

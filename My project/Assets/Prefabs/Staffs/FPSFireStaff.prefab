@@ -110,9 +110,6 @@ PrefabInstance:
       addedObject: {fileID: 3325713492470489939}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 256c7b296e159f9499d45285c8a95ccd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3794368149670602508}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 256c7b296e159f9499d45285c8a95ccd, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1795037817743265495}
   m_SourcePrefab: {fileID: 100100000, guid: 256c7b296e159f9499d45285c8a95ccd, type: 3}
 --- !u!1 &3859003327993988130 stripped
@@ -191,33 +188,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &3794368149670602508
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3859003327993988130}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &1795037817743265495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,8 +227,6 @@ MonoBehaviour:
   recheckFromMuzzleSlack: 0.02
   mana: {fileID: 0}
   super: {fileID: 0}
-  primaryFire: {fileID: -7392432880589620383, guid: 8ee8d9f86d7e0714f900b0c5baac1eac, type: 3}
-  altFire: {fileID: 4398789902901653162, guid: 8ee8d9f86d7e0714f900b0c5baac1eac, type: 3}
   debugPrimary: 1
 --- !u!4 &4523372935826742936 stripped
 Transform:

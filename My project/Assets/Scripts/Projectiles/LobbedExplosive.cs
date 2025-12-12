@@ -46,6 +46,8 @@ public class LobbedExplosive : MonoBehaviour
     void OnCollisionEnter(Collision c)
     {
         if (!armed) return;
+        Explode();
+        Destroy(gameObject);
     }
 
     void Explode()
@@ -54,14 +56,10 @@ public class LobbedExplosive : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             var h = hits[i];
-            if (h.TryGetComponent<Health>(out var hp))
+            if (h.TryGetComponent<IDamageable>(out var dmg))
             {
-                hp.ApplyDamage(damage);
-                if (hp.TryGetComponent<DummyTarget>(out var dummy)) dummy.OnDamaged();
-            }
-            else if (h.TryGetComponent<DummyTarget>(out var d))
-            {
-                d.ApplyDamage(damage);
+                Vector3 hitPoint = h.ClosestPoint(transform.position);
+                dmg.TakeDamage(damage, hitPoint);
             }
         }
         Destroy(gameObject);
