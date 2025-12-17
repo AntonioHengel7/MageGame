@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StaffData
   viewModelPrefab: {fileID: 3859003327993988130, guid: f7ead82df83bf5b4d9731f1660a1c657, type: 3}
   worldPickupPrefab: {fileID: 268120133819130795, guid: 3cbf0d4df4c5a0544a3ba1da3b3a232b, type: 3}
-  localPosition: {x: 0.55, y: -1, z: 0.56}
-  localEulerAngles: {x: 35.755, y: 0.049, z: -4.815}
+  localPosition: {x: 1.1, y: -1.45, z: 0.6}
+  localEulerAngles: {x: 35.47, y: -33.6, z: 0.4}
   displayName: Fire Staff

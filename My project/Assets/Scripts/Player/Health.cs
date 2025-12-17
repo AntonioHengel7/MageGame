@@ -11,18 +11,15 @@ public class Health : MonoBehaviour, IDamageable
     public float Current { get; private set; }
     public float Max => max;
     public float Normalized => max <= 0f ? 0f : Current / max;
-
     public bool IsAlive => Current > 0f;
 
     [Header("Death / Respawn")]
-    [Tooltip("Total delay before reloading the scene (seconds).")]
     [SerializeField] float deathReloadDelay = 1.0f;
-
-    [Tooltip("CanvasGroup used to fade the screen to black.")]
     [SerializeField] CanvasGroup fadeCanvasGroup;
-
-    [Tooltip("How long the fade takes (seconds).")]
     [SerializeField] float fadeDuration = 1.0f;
+    [SerializeField] string deathSceneName = "DeathScene";
+
+    public static string LastSceneName { get; private set; }
 
     bool isDying;
 
@@ -30,7 +27,6 @@ public class Health : MonoBehaviour, IDamageable
     {
         Current = max;
 
-        // Ensure fade starts transparent
         if (fadeCanvasGroup)
             fadeCanvasGroup.alpha = 0f;
     }
@@ -42,7 +38,6 @@ public class Health : MonoBehaviour, IDamageable
         Current = Mathf.Min(max, Current + regenPerSec * Time.deltaTime);
     }
 
-    // internal damage logic
     public void ApplyDamage(float amount)
     {
         if (!IsAlive) return;
@@ -50,7 +45,6 @@ public class Health : MonoBehaviour, IDamageable
         Current = Mathf.Max(0f, Current - Mathf.Max(0f, amount));
     }
 
-    // IDamageable implementation
     public void TakeDamage(float amount, Vector3 hitPoint)
     {
         if (!IsAlive || isDying) return;
@@ -68,7 +62,6 @@ public class Health : MonoBehaviour, IDamageable
     {
         float timer = 0f;
 
-        // Fade out
         if (fadeCanvasGroup && fadeDuration > 0f)
         {
             while (timer < fadeDuration)
@@ -80,13 +73,16 @@ public class Health : MonoBehaviour, IDamageable
             }
         }
 
-        // Ensure total time until reload is at least deathReloadDelay
         float remaining = Mathf.Max(0f, deathReloadDelay - timer);
         if (remaining > 0f)
             yield return new WaitForSeconds(remaining);
 
-        // Reload scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        LastSceneName = SceneManager.GetActiveScene().name;
+
+        if (!string.IsNullOrEmpty(deathSceneName))
+            SceneManager.LoadScene(deathSceneName);
+        else
+            SceneManager.LoadScene(LastSceneName);
     }
 
     public void SetMax(float newMax, bool refill = true)

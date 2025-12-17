@@ -12,6 +12,9 @@ public class LobbedExplosive : MonoBehaviour
     Collider col;
     bool armed;
 
+
+    Collider[] ignoredForDamage;
+
     public void SetDamage(float d) { damage = d; }
     public void SetRadius(float r) { radius = Mathf.Max(0f, r); }
     public void SetFuse(float f) { fuseSeconds = Mathf.Max(0.05f, f); }
@@ -20,7 +23,8 @@ public class LobbedExplosive : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
-        rb.useGravity = true;
+
+        rb.useGravity = false;
         rb.linearDamping = 0f;
         rb.angularDamping = 0.05f;
         rb.isKinematic = false;
@@ -30,12 +34,11 @@ public class LobbedExplosive : MonoBehaviour
 
     public void Launch(Vector3 initialVelocity, Collider[] ignoreColliders = null)
     {
-        if (ignoreColliders != null && col != null)
-        {
-            foreach (var ig in ignoreColliders)
-                if (ig && ig != col) Physics.IgnoreCollision(col, ig, true);
-        }
+
+        ignoredForDamage = ignoreColliders;
+
         rb.linearVelocity = initialVelocity;
+
         if (!armed)
         {
             armed = true;
@@ -46,23 +49,40 @@ public class LobbedExplosive : MonoBehaviour
     void OnCollisionEnter(Collision c)
     {
         if (!armed) return;
+
+
         Explode();
         Destroy(gameObject);
     }
 
     void Explode()
     {
+  
         var hits = Physics.OverlapSphere(transform.position, radius, damageMask, QueryTriggerInteraction.Ignore);
-        for (int i = 0; i < hits.Length; i++)
+
+        foreach (var h in hits)
         {
-            var h = hits[i];
+            if (IsIgnored(h)) 
+                continue;
+
             if (h.TryGetComponent<IDamageable>(out var dmg))
             {
-                Vector3 hitPoint = h.ClosestPoint(transform.position);
-                dmg.TakeDamage(damage, hitPoint);
+                Vector3 point = h.ClosestPoint(transform.position);
+                dmg.TakeDamage(damage, point);
             }
         }
-        Destroy(gameObject);
+    }
+
+    bool IsIgnored(Collider c)
+    {
+        if (ignoredForDamage == null) return false;
+
+        foreach (var ig in ignoredForDamage)
+        {
+            if (!ig) continue;
+            if (ig == c) return true;
+        }
+        return false;
     }
 
 #if UNITY_EDITOR

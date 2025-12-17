@@ -153,8 +153,13 @@ MonoBehaviour:
   barrageProjectilesPerSecond: 30
   barrageProjectileSpeed: 70
   barrageProjectileLife: 2
-  primaryFire: {fileID: -7392432880589620383, guid: 8ee8d9f86d7e0714f900b0c5baac1eac, type: 3}
-  altFire: {fileID: 4398789902901653162, guid: 8ee8d9f86d7e0714f900b0c5baac1eac, type: 3}
+  primaryFireAudio: {fileID: 0}
+  primaryFireVolume: 1
+  altFireAudio: {fileID: 0}
+  altFireVolume: 1
+  recoilTarget: {fileID: 0}
+  recoilDistance: 0.35
+  recoilRecoverySpeed: 12
 --- !u!1 &1726810926239418212
 GameObject:
   m_ObjectHideFlags: 0
