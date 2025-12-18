@@ -1,31 +1,26 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class NextFloorLoader : MonoBehaviour
+public class NewScene : MonoBehaviour
 {
-    [Header("Use EITHER nextByIndex or sceneName")]
-    public bool useNextBuildIndex = true;
-    public string sceneName = "Goblin Boss";   
 
+    private int Location;
+    private string NextLevel = "Level_1";
+    void Start()
+    {
+        
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+ 
+    }
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
-
-        if (useNextBuildIndex)
+        if (other.CompareTag("Player"))
         {
-            int currentIndex = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(currentIndex + 1);
-        }
-        else
-        {
-            if (!string.IsNullOrEmpty(sceneName))
-            {
-                SceneManager.LoadScene(sceneName);
-            }
-            else
-            {
-                Debug.LogError("No sceneName set on NextFloorLoader!");
-            }
+            SceneManager.LoadScene("Level_1");
         }
     }
 }
