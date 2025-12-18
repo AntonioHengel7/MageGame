@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4dcd6a95d346744a6b4ae214e16eea, type: 3}
   m_Name: StartingStaff
   m_EditorClassIdentifier: Assembly-CSharp::StaffData
-  viewModelPrefab: {fileID: 1559335338880827800, guid: 049be7f8fd689c74498e71f4ad94fb2b, type: 3}
+  viewModelPrefab: {fileID: 2044535263870243236, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
   worldPickupPrefab: {fileID: 2900019328935058130, guid: a968b2287ec87a9429f703c64cbcca17, type: 3}
   localPosition: {x: 0.55, y: -1.5, z: 0.56}
   localEulerAngles: {x: 35.755, y: 0.049, z: -4.815}

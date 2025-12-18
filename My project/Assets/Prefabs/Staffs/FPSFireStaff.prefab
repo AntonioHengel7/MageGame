@@ -203,7 +203,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   muzzle: {fileID: 0}
   ignoreRoot: {fileID: 0}
-  primaryProjectilePrefab: {fileID: 4489059085432146412, guid: 59af957e98ca59147aa114ec93b9d4af, type: 3}
+  primaryProjectilePrefab: {fileID: 8157822576626485568, guid: f8dfcd77f89ac8149b169b6d1a100b57, type: 3}
   altProjectilePrefab: {fileID: 8753945357093357367, guid: c6e148b0ef91c1b468b67c340d6b13f9, type: 3}
   fireRate: 6
   primarySpeed: 60
