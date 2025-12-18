@@ -43314,6 +43314,8 @@ MonoBehaviour:
   onDamaged:
     m_PersistentCalls:
       m_Calls: []
+  super: {fileID: 0}
+  superOnDeath: 10
 --- !u!114 &6865998677452780512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43326,7 +43328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9859655c4825414fb850a90255936a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
-  def: {fileID: 11400000, guid: 38353ea20ccdf5043a93da3e7ad72230, type: 2}
+  def: {fileID: 11400000, guid: 7912456305702c841965922567804b4d, type: 2}
   playerTag: Player
   animator: {fileID: 7298825774691439853}
   moveBool: IsMoving
