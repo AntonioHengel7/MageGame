@@ -61,8 +61,8 @@ public class EnemyController : MonoBehaviour
         // Chase
         if (dist > def.attackRange)
         {
-            //agent.isStopped = false;
-            //agent.SetDestination(player.position);
+            agent.isStopped = false;
+            agent.SetDestination(player.position);
 
             // movement animation based on velocity
             bool moving = agent.velocity.sqrMagnitude > 0.01f;
