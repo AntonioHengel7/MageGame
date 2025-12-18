@@ -817,6 +817,75 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1001 &1010630987
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14.247095
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.893613
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112517835585446824, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192870276976877404, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
+      propertyPath: m_Name
+      value: Goblin_Boss
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 97ff4e45d8590b8479ca9d5999b6e176, type: 3}
 --- !u!1 &1044313405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1109,13 +1178,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93600c3b24610ac4894955404731ff80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 100
+  maxHealth: 10000
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   onDamaged:
     m_PersistentCalls:
       m_Calls: []
+  super: {fileID: 0}
+  superOnDeath: 10
 --- !u!136 &1329020306
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2005,3 +2076,4 @@ SceneRoots:
   - {fileID: 848035901}
   - {fileID: 93398670}
   - {fileID: 2130848698}
+  - {fileID: 1010630987}

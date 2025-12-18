@@ -70,8 +70,8 @@ public class EnemyController : MonoBehaviour
         // Chase
         if (dist > def.attackRange)
         {
-            //agent.isStopped = false;
-            //agent.SetDestination(player.position);
+            agent.isStopped = false;
+            agent.SetDestination(player.position);
 
             // Optional: also face the player while moving
             Face(player.position);
