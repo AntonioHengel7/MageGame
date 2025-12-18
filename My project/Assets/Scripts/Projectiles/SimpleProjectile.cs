@@ -50,18 +50,14 @@ public class SimpleProjectile : MonoBehaviour
     }
 
     void ApplyDamageIfPossible(Collider target)
+{
+    if (target.TryGetComponent<IDamageable>(out var dmg))
     {
-        if (target.TryGetComponent<Health>(out var hp))
-        {
-            hp.ApplyDamage(damage);
-            if (hp.TryGetComponent<DummyTarget>(out var dummy)) dummy.OnDamaged();
-            return;
-        }
-        if (target.TryGetComponent<DummyTarget>(out var d))
-        {
-            d.ApplyDamage(damage);
-        }
+        Vector3 hitPoint = target.ClosestPoint(transform.position);
+        dmg.TakeDamage(damage, hitPoint);
     }
+}
+
 
     void Despawn() => Destroy(gameObject);
 }

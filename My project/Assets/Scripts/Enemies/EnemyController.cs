@@ -19,6 +19,13 @@ public class EnemyController : MonoBehaviour
     [Header("Ranged Settings (optional)")]
     public Transform projectileSpawnPoint;  // assign hand/mouth/etc; optional
 
+    [Header("Audio")]
+    public AudioSource audioSource;         // assign or auto-grab from this object
+    public AudioClip[] attackClips;        // random attack grunts / shots
+    public AudioClip[] deathClips;         // random death sounds
+    [Range(0f, 1f)]
+    public float attackVoiceChance = 0.1f; // 10% default
+
     NavMeshAgent agent;
     Transform player;
     Health2 health;
@@ -30,7 +37,9 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<Health2>();
 
-        
+        // Try to auto-grab an AudioSource if not set in inspector
+        if (!audioSource)
+            audioSource = GetComponent<AudioSource>();
 
         // Apply stats from definition
         health.Initialize(def.maxHealth);
@@ -64,6 +73,9 @@ public class EnemyController : MonoBehaviour
             //agent.isStopped = false;
             //agent.SetDestination(player.position);
 
+            // Optional: also face the player while moving
+            Face(player.position);
+
             // movement animation based on velocity
             bool moving = agent.velocity.sqrMagnitude > 0.01f;
             SetMoving(moving);
@@ -90,6 +102,9 @@ public class EnemyController : MonoBehaviour
         if (animator && !string.IsNullOrEmpty(attackTrigger))
             animator.SetTrigger(attackTrigger);
 
+        // 10% chance (or whatever attackVoiceChance is) to play an attack sound
+        TryPlayRandomClip(attackClips, attackVoiceChance, spatial: false);
+
         // wait for windup so the hit happens in sync with the anim
         yield return new WaitForSeconds(def.attackWindup);
 
@@ -107,14 +122,24 @@ public class EnemyController : MonoBehaviour
         {
             if (!def.projectilePrefab || !player) yield break;
 
-            Vector3 targetPos = player.position + Vector3.up * 0.8f;
-            Vector3 dir = (targetPos - transform.position).normalized;
-
+            // Choose where the projectile starts
             Vector3 spawnPos;
-            if (projectileSpawnPoint)
+            if (projectileSpawnPoint != null)
+            {
+                // e.g. wizard hand / staff tip
                 spawnPos = projectileSpawnPoint.position;
+            }
             else
-                spawnPos = transform.position + dir * 0.8f + Vector3.up * 0.7f;
+            {
+                // fallback: enemy chest height
+                spawnPos = transform.position + Vector3.up * 1.2f;
+            }
+
+            // Aim roughly at the player's chest
+            Vector3 targetPos = player.position + Vector3.up * 0.5f;
+
+            // Direction from spawn to target
+            Vector3 dir = (targetPos - spawnPos).normalized;
 
             var go = Instantiate(def.projectilePrefab,
                                  spawnPos,
@@ -160,6 +185,9 @@ public class EnemyController : MonoBehaviour
         if (animator && !string.IsNullOrEmpty(dieTrigger))
             animator.SetTrigger(dieTrigger);
 
+        // Always play a death sound if we have one
+        TryPlayRandomClip(deathClips, 1f, spatial: true);
+
         // grant ult
         GameEvents.RaiseEnemyKilled(def.ultimateValueOnKill);
 
@@ -171,5 +199,28 @@ public class EnemyController : MonoBehaviour
     {
         if (!animator || string.IsNullOrEmpty(moveBool)) return;
         animator.SetBool(moveBool, moving);
+    }
+
+    // --- AUDIO HELPERS ---
+
+    void TryPlayRandomClip(AudioClip[] clips, float chance, bool spatial)
+    {
+        if (clips == null || clips.Length == 0) return;
+        if (chance <= 0f) return;
+        if (Random.value > chance) return;
+
+        var clip = clips[Random.Range(0, clips.Length)];
+        if (!clip) return;
+
+        if (spatial)
+        {
+            // Plays at world position, survives even if this enemy is destroyed
+            AudioSource.PlayClipAtPoint(clip, transform.position);
+        }
+        else
+        {
+            if (audioSource)
+                audioSource.PlayOneShot(clip);
+        }
     }
 }
