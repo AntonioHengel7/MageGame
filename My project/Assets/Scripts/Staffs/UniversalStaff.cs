@@ -47,19 +47,46 @@ public class UniversalStaff : MonoBehaviour
     [SerializeField] InputActionReference altFire;
 #endif
 
+    [Header("Audio")]
+    [SerializeField] AudioSource primaryFireAudio;
+    [Range(0f, 1f)]
+    [SerializeField] float primaryFireVolume = 1f;
+    [SerializeField] AudioSource altFireAudio;
+    [Range(0f, 1f)]
+    [SerializeField] float altFireVolume = 1f;
+
+    [Header("Recoil")]
+    [SerializeField] Transform recoilTarget;
+    [SerializeField] float recoilDistance = 0.05f;
+    [SerializeField] float recoilRecoverySpeed = 10f;
+
     float nextFireTime;
     Collider[] cachedIgnore;
     bool barrageActive;
     float barrageTimer;
     float barrageTick;
+    Vector3 recoilOffset;
+    Vector3 recoilBaseLocalPos;
 
     void Awake()
     {
         if (!cam) cam = Camera.main;
-        if (!mana) { var root = transform.root; if (root) mana = root.GetComponentInChildren<Mana>(); }
-        if (!super) { var root = transform.root; if (root) super = root.GetComponentInChildren<SuperMeter>(); }
+        if (!mana)
+        {
+            var root = transform.root;
+            if (root) mana = root.GetComponentInChildren<Mana>();
+        }
+        if (!super)
+        {
+            var root = transform.root;
+            if (root) super = root.GetComponentInChildren<SuperMeter>();
+        }
         if (!ignoreRoot) ignoreRoot = transform.root;
         if (ignoreRoot) cachedIgnore = ignoreRoot.GetComponentsInChildren<Collider>(true);
+
+        if (!recoilTarget) recoilTarget = transform;
+        recoilBaseLocalPos = recoilTarget.localPosition;
+
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
         primaryFire?.action.Enable();
         altFire?.action.Enable();
@@ -106,6 +133,8 @@ public class UniversalStaff : MonoBehaviour
             }
             if (barrageTimer <= 0f) barrageActive = false;
         }
+
+        UpdateRecoil();
     }
 
     void TryFireOnce()
@@ -140,23 +169,58 @@ public class UniversalStaff : MonoBehaviour
 
         var go = Instantiate(projectilePrefab, spawnPos, Quaternion.LookRotation(dir));
         go.transform.localScale = projectileScale;
-        var proj = go.GetComponent<SimpleProjectile>(); if (!proj) proj = go.GetComponentInChildren<SimpleProjectile>(); if (!proj) { Debug.LogError("[UniversalStaff] Projectile prefab missing SimpleProjectile"); return; }
+
+        var proj = go.GetComponent<SimpleProjectile>();
+        if (!proj) proj = go.GetComponentInChildren<SimpleProjectile>();
+        if (!proj)
+        {
+            Debug.LogError("[UniversalStaff] Projectile prefab missing SimpleProjectile");
+            return;
+        }
+
         proj.SetLifetime(projectileLife);
         proj.Launch(dir, projectileSpeed, cachedIgnore);
+
+        PlayPrimaryFireAudio();
+        ApplyPrimaryRecoil();
     }
 
     void TryStartBarrage()
     {
         if (!cam) return;
-        if (!mana || !super) { Debug.Log("[UniversalStaff] Missing Mana or SuperMeter."); return; }
+        if (!mana || !super)
+        {
+            Debug.Log("[UniversalStaff] Missing Mana or SuperMeter.");
+            return;
+        }
         bool superFull = super.Current >= super.Max && super.Max > 0f;
-        if (!superFull) { Debug.Log($"[UniversalStaff] Super not full. Current: {super.Current:0.0}/{super.Max:0.0}"); return; }
-        if (mana.Current < barrageManaCost) { Debug.Log($"[UniversalStaff] Not enough mana for barrage (need {barrageManaCost}). Current: {mana.Current:0.0}/{mana.Max:0.0}"); return; }
-        if (!super.TrySpend(barrageSuperCost)) { Debug.Log($"[UniversalStaff] Could not spend super {barrageSuperCost}. Current: {super.Current:0.0}/{super.Max:0.0}"); return; }
-        if (!mana.TrySpend(barrageManaCost)) { Debug.Log($"[UniversalStaff] Could not spend mana {barrageManaCost}. Current: {mana.Current:0.0}/{mana.Max:0.0}"); super.Add(barrageSuperCost); return; }
+        if (!superFull)
+        {
+            Debug.Log($"[UniversalStaff] Super not full. Current: {super.Current:0.0}/{super.Max:0.0}");
+            return;
+        }
+        if (mana.Current < barrageManaCost)
+        {
+            Debug.Log($"[UniversalStaff] Not enough mana for barrage (need {barrageManaCost}). Current: {mana.Current:0.0}/{mana.Max:0.0}");
+            return;
+        }
+        if (!super.TrySpend(barrageSuperCost))
+        {
+            Debug.Log($"[UniversalStaff] Could not spend super {barrageSuperCost}. Current: {super.Current:0.0}/{super.Max:0.0}");
+            return;
+        }
+        if (!mana.TrySpend(barrageManaCost))
+        {
+            Debug.Log($"[UniversalStaff] Could not spend mana {barrageManaCost}). Current: {mana.Current:0.0}/{mana.Max:0.0}");
+            super.Add(barrageSuperCost);
+            return;
+        }
         barrageActive = true;
         barrageTimer = barrageDuration;
         barrageTick = 0f;
+
+        PlayAltFireAudio();
+
         Debug.Log($"[UniversalStaff] Barrage started. Spent {barrageManaCost} mana (left {mana.Current:0.0}/{mana.Max:0.0}) and {barrageSuperCost} super (left {super.Current:0.0}/{super.Max:0.0}).");
     }
 
@@ -180,10 +244,47 @@ public class UniversalStaff : MonoBehaviour
 
         var go = Instantiate(projectilePrefab, spawnPos, Quaternion.LookRotation(dir));
         go.transform.localScale = projectileScale;
-        var proj = go.GetComponent<SimpleProjectile>(); if (!proj) proj = go.GetComponentInChildren<SimpleProjectile>(); if (!proj) { Debug.LogError("[UniversalStaff] Projectile prefab missing SimpleProjectile"); return; }
+
+        var proj = go.GetComponent<SimpleProjectile>();
+        if (!proj) proj = go.GetComponentInChildren<SimpleProjectile>();
+        if (!proj)
+        {
+            Debug.LogError("[UniversalStaff] Projectile prefab missing SimpleProjectile");
+            return;
+        }
+
         float perProjectileDamage = barrageDPS / Mathf.Max(1f, barrageProjectilesPerSecond);
-        if (proj is SimpleProjectile psp) { var setDamage = psp.GetType().GetMethod("SetDamage"); if (setDamage != null) setDamage.Invoke(psp, new object[]{ perProjectileDamage }); }
+        var setDamage = proj.GetType().GetMethod("SetDamage");
+        if (setDamage != null) setDamage.Invoke(proj, new object[] { perProjectileDamage });
+
         proj.SetLifetime(barrageProjectileLife);
         proj.Launch(dir, barrageProjectileSpeed, cachedIgnore);
+    }
+
+    void PlayPrimaryFireAudio()
+    {
+        if (!primaryFireAudio) return;
+        primaryFireAudio.volume = primaryFireVolume;
+        primaryFireAudio.Play();
+    }
+
+    void PlayAltFireAudio()
+    {
+        if (!altFireAudio) return;
+        altFireAudio.volume = altFireVolume;
+        altFireAudio.Play();
+    }
+
+    void ApplyPrimaryRecoil()
+    {
+        if (!recoilTarget) return;
+        recoilOffset += new Vector3(0f, 0f, -recoilDistance);
+    }
+
+    void UpdateRecoil()
+    {
+        if (!recoilTarget) return;
+        recoilOffset = Vector3.Lerp(recoilOffset, Vector3.zero, Time.deltaTime * recoilRecoverySpeed);
+        recoilTarget.localPosition = recoilBaseLocalPos + recoilOffset;
     }
 }

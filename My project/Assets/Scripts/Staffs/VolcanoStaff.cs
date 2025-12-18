@@ -48,19 +48,46 @@ public class VolcanoStaff : MonoBehaviour
     [SerializeField] InputActionReference altFire;
 #endif
 
+    [Header("Audio")]
+    [SerializeField] AudioSource primaryFireAudio;
+    [Range(0f, 1f)]
+    [SerializeField] float primaryFireVolume = 1f;
+    [SerializeField] AudioSource altFireAudio;
+    [Range(0f, 1f)]
+    [SerializeField] float altFireVolume = 1f;
+
+    [Header("Recoil")]
+    [SerializeField] Transform recoilTarget;
+    [SerializeField] float recoilDistance = 0.05f;
+    [SerializeField] float recoilRecoverySpeed = 10f;
+
     [Header("Debug")]
     [SerializeField] bool debugPrimary = true;
 
     float nextFireTime;
     Collider[] cachedIgnore;
+    Vector3 recoilOffset;
+    Vector3 recoilBaseLocalPos;
 
     void Awake()
     {
         if (!cam) cam = Camera.main;
-        if (!mana) { var r0 = transform.root; if (r0) mana = r0.GetComponentInChildren<Mana>(); }
-        if (!super) { var r1 = transform.root; if (r1) super = r1.GetComponentInChildren<SuperMeter>(); }
+        if (!mana)
+        {
+            var r0 = transform.root;
+            if (r0) mana = r0.GetComponentInChildren<Mana>();
+        }
+        if (!super)
+        {
+            var r1 = transform.root;
+            if (r1) super = r1.GetComponentInChildren<SuperMeter>();
+        }
         if (!ignoreRoot) ignoreRoot = transform.root;
         if (ignoreRoot) cachedIgnore = ignoreRoot.GetComponentsInChildren<Collider>(true);
+
+        if (!recoilTarget) recoilTarget = transform;
+        recoilBaseLocalPos = recoilTarget.localPosition;
+
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
         primaryFire?.action.Enable();
         altFire?.action.Enable();
@@ -92,6 +119,8 @@ public class VolcanoStaff : MonoBehaviour
             FirePrimary();
         }
         if (aDown) FireAlt();
+
+        UpdateRecoil();
     }
 
     void FirePrimary()
@@ -129,12 +158,19 @@ public class VolcanoStaff : MonoBehaviour
 
         var bolt = go.GetComponent<ExplosiveBolt>();
         if (!bolt) bolt = go.GetComponentInChildren<ExplosiveBolt>();
-        if (!bolt) { Debug.LogError("[VolcanoStaff] Primary prefab missing ExplosiveBolt"); return; }
+        if (!bolt)
+        {
+            Debug.LogError("[VolcanoStaff] Primary prefab missing ExplosiveBolt");
+            return;
+        }
 
         bolt.SetLifetime(primaryLife);
         bolt.SetDamage(primaryDamage);
         bolt.SetRadius(primaryRadius);
         bolt.Launch(dir, primarySpeed, cachedIgnore);
+
+        PlayPrimaryFireAudio();
+        ApplyPrimaryRecoil();
 
         if (debugPrimary) Debug.DrawRay(spawnPos, dir * 3f, Color.red, 1.5f);
     }
@@ -142,27 +178,84 @@ public class VolcanoStaff : MonoBehaviour
     void FireAlt()
     {
         if (!cam || !altProjectilePrefab) return;
-        if (!mana || !super) { Debug.Log("[VolcanoStaff] Missing Mana or SuperMeter."); return; }
+        if (!mana || !super)
+        {
+            Debug.Log("[VolcanoStaff] Missing Mana or SuperMeter.");
+            return;
+        }
+
         bool superFull = super.Current >= super.Max && super.Max > 0f;
-        if (!superFull) { Debug.Log($"[VolcanoStaff] Super not full. Current: {super.Current:0.0}/{super.Max:0.0}"); return; }
-        if (mana.Current < altManaCost) { Debug.Log($"[VolcanoStaff] Not enough mana for alt (need {altManaCost}). Current: {mana.Current:0.0}/{mana.Max:0.0}"); return; }
-        if (!super.TrySpend(altSuperCost)) { Debug.Log($"[VolcanoStaff] Could not spend super {altSuperCost}. Current: {super.Current:0.0}/{super.Max:0.0}"); return; }
-        if (!mana.TrySpend(altManaCost)) { Debug.Log($"[VolcanoStaff] Could not spend mana {altManaCost}. Current: {mana.Current:0.0}/{mana.Max:0.0}"); super.Add(altSuperCost); return; }
+        if (!superFull)
+        {
+            Debug.Log($"[VolcanoStaff] Super not full. Current: {super.Current:0.0}/{super.Max:0.0}");
+            return;
+        }
+        if (mana.Current < altManaCost)
+        {
+            Debug.Log($"[VolcanoStaff] Not enough mana for alt (need {altManaCost}). Current: {mana.Current:0.0}/{mana.Max:0.0}");
+            return;
+        }
+        if (!super.TrySpend(altSuperCost))
+        {
+            Debug.Log($"[VolcanoStaff] Could not spend super {altSuperCost}. Current: {super.Current:0.0}/{super.Max:0.0}");
+            return;
+        }
+        if (!mana.TrySpend(altManaCost))
+        {
+            Debug.Log($"[VolcanoStaff] Could not spend mana {altManaCost}. Current: {mana.Current:0.0}/{mana.Max:0.0}");
+            super.Add(altSuperCost);
+            return;
+        }
+
         Debug.Log($"[VolcanoStaff] Alt fired. Spent {altManaCost} mana (left {mana.Current:0.0}/{mana.Max:0.0}) and {altSuperCost} super (left {super.Current:0.0}/{super.Max:0.0}).");
 
         Vector3 origin = muzzle ? muzzle.position : cam.transform.position;
-        Vector3 forward = cam.transform.forward;
-        Vector3 v = forward.normalized * altForwardSpeed + Vector3.up * altUpwardBoost;
-        Vector3 spawnPos = origin + forward.normalized * spawnForwardOffset;
+        Vector3 forward = cam.transform.forward.normalized;
+
+        Vector3 v = forward * altForwardSpeed;
+        Vector3 spawnPos = origin + forward * spawnForwardOffset;
 
         var go = Instantiate(altProjectilePrefab, spawnPos, Quaternion.LookRotation(forward));
         var proj = go.GetComponent<LobbedExplosive>();
         if (!proj) proj = go.GetComponentInChildren<LobbedExplosive>();
-        if (!proj) { Debug.LogError("[VolcanoStaff] Alt prefab missing LobbedExplosive"); return; }
+        if (!proj)
+        {
+            Debug.LogError("[VolcanoStaff] Alt prefab missing LobbedExplosive");
+            return;
+        }
 
         proj.SetDamage(altDamage);
         proj.SetRadius(altRadius);
         proj.SetFuse(altFuse);
         proj.Launch(v, cachedIgnore);
+
+        PlayAltFireAudio();
+    }
+
+    void PlayPrimaryFireAudio()
+    {
+        if (!primaryFireAudio) return;
+        primaryFireAudio.volume = primaryFireVolume;
+        primaryFireAudio.Play();
+    }
+
+    void PlayAltFireAudio()
+    {
+        if (!altFireAudio) return;
+        altFireAudio.volume = altFireVolume;
+        altFireAudio.Play();
+    }
+
+    void ApplyPrimaryRecoil()
+    {
+        if (!recoilTarget) return;
+        recoilOffset += new Vector3(0f, 0f, -recoilDistance);
+    }
+
+    void UpdateRecoil()
+    {
+        if (!recoilTarget) return;
+        recoilOffset = Vector3.Lerp(recoilOffset, Vector3.zero, Time.deltaTime * recoilRecoverySpeed);
+        recoilTarget.localPosition = recoilBaseLocalPos + recoilOffset;
     }
 }

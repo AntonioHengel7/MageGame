@@ -20,9 +20,9 @@ MonoBehaviour:
   attackKind: 1
   attackRange: 10
   attackDamage: 8
-  attackCooldown: 1.1
-  attackWindup: 0.2
-  projectilePrefab: {fileID: 7107574021825021197, guid: 1941f60f04973264d8e2872c2103f98d, type: 3}
+  attackCooldown: 2.5
+  attackWindup: 0.5
+  projectilePrefab: {fileID: 7141212983982039801, guid: 42c6e62df1bc1be449d142fd07cf992c, type: 3}
   projectileSpeed: 18
   projectileLifetime: 4
   ultimateValueOnKill: 8
