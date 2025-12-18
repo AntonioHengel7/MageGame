@@ -369,7 +369,9 @@ GameObject:
   - component: {fileID: 2486731563273615178}
   - component: {fileID: 4223159388545766092}
   - component: {fileID: 557384447166880553}
-  - component: {fileID: 9196744291041799486}
+  - component: {fileID: 4753153569303216436}
+  - component: {fileID: 4017864858749026498}
+  - component: {fileID: 9163857635810549191}
   m_Layer: 0
   m_Name: FireBall02
   m_TagString: Untagged
@@ -449,7 +451,55 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9196744291041799486
+--- !u!135 &4753153569303216436
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8157822576626485568}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.99519646
+  m_Center: {x: -0.00000032782563, y: 0.00000023841858, z: 0}
+--- !u!54 &4017864858749026498
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8157822576626485568}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &9163857635810549191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -458,15 +508,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8157822576626485568}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 411cffdc8f64b864da5d25a5a22ed2c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 70c2ce0aa42a83248928dee407b374dc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 100
-  movementSpeed: 10
-  delayTime: 0
-  time: 2
-  towardType: 0
-  maxDistance: 100
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveBolt
+  damage: 15
+  radius: 1.5
+  lifeSeconds: 10
+  damageMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &8537150317972294221
 GameObject:
   m_ObjectHideFlags: 0
