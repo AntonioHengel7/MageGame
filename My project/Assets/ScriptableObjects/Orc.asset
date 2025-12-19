@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDefinition
   enemyName: Orc
   maxHealth: 80
-  moveSpeed: 2.2
+  moveSpeed: 4.1
   angularSpeed: 360
   stoppingDistance: 1.25
   attackKind: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   projectileSpeed: 16
   projectileLifetime: 4
-  ultimateValueOnKill: 9
+  ultimateValueOnKill: 20
   visualPrefab: {fileID: 0}
   attackSfx: []
   hurtSfx: []

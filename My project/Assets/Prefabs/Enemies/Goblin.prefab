@@ -159,6 +159,8 @@ MonoBehaviour:
   onDamaged:
     m_PersistentCalls:
       m_Calls: []
+  super: {fileID: 0}
+  superOnDeath: 15
 --- !u!114 &6084177869955593225
 MonoBehaviour:
   m_ObjectHideFlags: 0
