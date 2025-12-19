@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDefinition
   enemyName: Wizard
   maxHealth: 35
-  moveSpeed: 2
+  moveSpeed: 4.65
   angularSpeed: 360
   stoppingDistance: 1.25
   attackKind: 1
@@ -25,7 +25,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7141212983982039801, guid: 42c6e62df1bc1be449d142fd07cf992c, type: 3}
   projectileSpeed: 18
   projectileLifetime: 4
-  ultimateValueOnKill: 8
+  ultimateValueOnKill: 12
   visualPrefab: {fileID: 0}
   attackSfx: []
   hurtSfx: []

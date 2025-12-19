@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDefinition
   enemyName: Goblin
   maxHealth: 20
-  moveSpeed: 2.5
+  moveSpeed: 8.74
   angularSpeed: 360
   stoppingDistance: 1.25
   attackKind: 0

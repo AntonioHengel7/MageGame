@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4340391437908419152}
+  - {fileID: 4540024313886876961}
   m_Father: {fileID: 8753698707321543656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &737352444458064133
@@ -334,8 +334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00e7b539cbcbf1b448bda48e2a4089b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mana
-  max: 100
-  regenPerSec: 5
+  max: 150
+  regenPerSec: 15
 --- !u!114 &6301295933300885213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   max: 100
-  regenPerSec: 2
+  regenPerSec: 4
   deathReloadDelay: 1
   fadeCanvasGroup: {fileID: 0}
   fadeDuration: 1
@@ -538,7 +538,7 @@ Transform:
   - {fileID: 8753698707321543656}
   m_Father: {fileID: 1651135978076831815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5192658892104348376
+--- !u!1 &8111925319938877569
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -546,7 +546,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2997707770837105819}
+  - component: {fileID: 9032355865976543012}
   m_Layer: 0
   m_Name: muzzle
   m_TagString: Untagged
@@ -554,22 +554,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2997707770837105819
+--- !u!4 &9032355865976543012
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5192658892104348376}
+  m_GameObject: {fileID: 8111925319938877569}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -7.569007, y: 1.9390001, z: 0.29701}
   m_LocalScale: {x: 0.537632, y: 1.9590958, z: 1.8412638}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4340391437908419152}
+  m_Father: {fileID: 4540024313886876961}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &3781284102018398852
+--- !u!1001 &3982469393791843829
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -621,21 +621,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: GunStaff
       objectReference: {fileID: 0}
+    - target: {fileID: 6040708433190842384, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
+      propertyPath: m_Radius
+      value: 0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 6964353561174189717, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
       propertyPath: muzzle
       value: 
-      objectReference: {fileID: 2997707770837105819}
-    - target: {fileID: 6964353561174189717, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
-      propertyPath: altFireAudio
-      value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9032355865976543012}
     - target: {fileID: 6964353561174189717, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
       propertyPath: altFireVolume
       value: 0.801
       objectReference: {fileID: 0}
     - target: {fileID: 6964353561174189717, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
-      propertyPath: primaryFireAudio
-      value: 
+      propertyPath: maxAimDistance
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6964353561174189717, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
+      propertyPath: projectileLife
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6964353561174189717, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
       propertyPath: primaryFireVolume
@@ -687,13 +691,13 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 596158363479234772, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2997707770837105819}
+      addedObject: {fileID: 9032355865976543012}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
---- !u!4 &4340391437908419152 stripped
+--- !u!4 &4540024313886876961 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 596158363479234772, guid: e652da3b3c3795644b2ec92218ef8a23, type: 3}
-  m_PrefabInstance: {fileID: 3781284102018398852}
+  m_PrefabInstance: {fileID: 3982469393791843829}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7072822130278724579
 PrefabInstance:

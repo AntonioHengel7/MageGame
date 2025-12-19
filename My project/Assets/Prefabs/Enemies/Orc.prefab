@@ -43314,6 +43314,8 @@ MonoBehaviour:
   onDamaged:
     m_PersistentCalls:
       m_Calls: []
+  super: {fileID: 0}
+  superOnDeath: 20
 --- !u!114 &6865998677452780512
 MonoBehaviour:
   m_ObjectHideFlags: 0

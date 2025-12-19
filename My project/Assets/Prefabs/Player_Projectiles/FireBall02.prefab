@@ -372,6 +372,7 @@ GameObject:
   - component: {fileID: 4753153569303216436}
   - component: {fileID: 4017864858749026498}
   - component: {fileID: 9163857635810549191}
+  - component: {fileID: 6932579333294334639}
   m_Layer: 0
   m_Name: FireBall02
   m_TagString: Untagged
@@ -512,11 +513,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExplosiveBolt
   damage: 15
-  radius: 1.5
+  radius: 0.72
   lifeSeconds: 10
   damageMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!136 &6932579333294334639
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8157822576626485568}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.02
+  m_Height: 0.05
+  m_Direction: 0
+  m_Center: {x: -0.00000032782563, y: 0.00000023841858, z: 0}
 --- !u!1 &8537150317972294221
 GameObject:
   m_ObjectHideFlags: 0
